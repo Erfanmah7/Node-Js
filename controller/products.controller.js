@@ -28,18 +28,19 @@ async function getById(req, res) {
   }
 }
 
-async function create(res) {
+async function create(req, res) {
   try {
-    await productsModel.create({
-      id: Date.now(),
-      name: "erfan",
-      description:
-        "Get a better handle on your games with this Logitech LIGHTSYNC gaming mouse. The six programmable buttons allow customization for a smooth playing experience",
-      price: 27,
+    let body = "";
+    req.on("data", (chunk) => {
+      body += chunk.toString();
     });
-    res.writeHead(201, { "Content-Type": "application/json" });
-    res.write(JSON.stringify({ message: "product created successfully" }));
-    res.end();
+    req.on("end", async () => {
+      const product = { id: Date.now(), ...JSON.parse(body) };
+      const result = await productsModel.create(product);
+      res.writeHead(201, { "Content-Type": "application/json" });
+      res.write(JSON.stringify(result));
+      res.end();
+    });
   } catch (error) {
     console.log(error);
   }
