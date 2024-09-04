@@ -28,9 +28,27 @@ async function getById(req, res) {
   }
 }
 
+async function create(res) {
+  try {
+    await productsModel.create({
+      id: Date.now(),
+      name: "erfan",
+      description:
+        "Get a better handle on your games with this Logitech LIGHTSYNC gaming mouse. The six programmable buttons allow customization for a smooth playing experience",
+      price: 27,
+    });
+    res.writeHead(201, { "Content-Type": "application/json" });
+    res.write(JSON.stringify({ message: "product created successfully" }));
+    res.end();
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 const productsController = {
   get,
   getById,
+  create,
 };
 
 module.exports = productsController;
