@@ -72,11 +72,29 @@ async function update(req, res) {
   }
 }
 
+async function remove(req, res) {
+  try {
+    const id = req.url.split("/")[3];
+    const product = await productsModel.findById(id);
+    if (!product) {
+      notfound(res);
+    } else {
+      const list = await productsModel.remove(id);
+      res.writeHead(200, { "Content-Type": "application/json" });
+      res.write(JSON.stringify(list));
+      res.end();
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 const productsController = {
   get,
   getById,
   create,
   update,
+  remove,
 };
 
 module.exports = productsController;

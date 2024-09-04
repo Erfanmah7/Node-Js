@@ -11,6 +11,8 @@ http
       productsController.create(req, res);
     else if (req.url.match(/\/api\/products\/[0-9]+/) && req.method === "PUT")
       productsController.update(req, res);
+    else if (req.url.match(/\/api\/products\/[0-9]+/) && req.method === "DELETE")
+      productsController.remove(req, res);
     else notfound(res);
   })
   .listen(3000, () => console.log("server to : http://localhost:3000"));

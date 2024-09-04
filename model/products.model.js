@@ -48,11 +48,26 @@ async function update(id, payload) {
   });
 }
 
+async function remove(id) {
+  return new Promise((resolve, reject) => {
+    const newList = products.filter((product) => product.id !== id);
+    fs.writeFile(
+      `${process.cwd()}/data/products.json`,
+      JSON.stringify(newList),
+      (err) => {
+        if (err) reject(err);
+        else resolve({ message: "product deleted successfully" });
+      }
+    );
+  });
+}
+
 const productsfunction = {
   find,
   findById,
   create,
   update,
+  remove,
 };
 
 module.exports = productsfunction;
