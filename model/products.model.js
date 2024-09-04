@@ -6,8 +6,15 @@ async function find() {
   });
 }
 
+async function findById(id) {
+  return new Promise((resolve, reject) => {
+    resolve(products.find((product) => product.id === id));
+  });
+}
+
 const productsfunction = {
   find,
+  findById,
 };
 
 module.exports = productsfunction;
