@@ -3,15 +3,16 @@ const productsController = require("./controller/products.controller");
 const notfound = require("./controller/notFound.controller");
 http
   .createServer((req, res) => {
-    if (req.url === "/api/products" && req.method === "GET")
+    const { url, method } = req;
+    if (url === "/api/products" && method === "GET")
       productsController.get(res);
-    else if (req.url.match(/\/api\/products\/[0-9]+/) && req.method === "GET")
+    else if (url.match(/\/api\/products\/[0-9]+/) && method === "GET")
       productsController.getById(req, res);
-    else if (req.url === "/api/products" && req.method === "POST")
+    else if (url === "/api/products" && method === "POST")
       productsController.create(req, res);
-    else if (req.url.match(/\/api\/products\/[0-9]+/) && req.method === "PUT")
+    else if (url.match(/\/api\/products\/[0-9]+/) && method === "PUT")
       productsController.update(req, res);
-    else if (req.url.match(/\/api\/products\/[0-9]+/) && req.method === "DELETE")
+    else if (url.match(/\/api\/products\/[0-9]+/) && method === "DELETE")
       productsController.remove(req, res);
     else notfound(res);
   })
